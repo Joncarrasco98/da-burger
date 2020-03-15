@@ -2,12 +2,12 @@ var express = require("express");
 
 var router = express.Router();
 
+// Import the model (burger.js) to use its database functions.
+var burgers = require("../models/burgers.js");
 
-var burger = require("../models/burger.js");
-
-
+// GET (read)
 router.get("/", function(req, res) {
-  burger.all(function(data) {
+  burgers.selectAll(function(data) {
     var hbsObject = {
       burgers: data
     };
@@ -16,46 +16,34 @@ router.get("/", function(req, res) {
   });
 });
 
+//POST (create)
 router.post("/api/burgers", function(req, res) {
-  burger.create([
-    "burger_name", "devoured"
-  ], [
-    req.body.name, req.body.devoured
-  ], function(result) {
-  
+  burgers.insertOne(req.body.burger_name, function(result) {
     res.json({ id: result.insertId });
   });
 });
 
+//PUT (update)
 router.put("/api/burgers/:id", function(req, res) {
-  var condition = "id = " + req.params.id;
+  var condition = req.params.id;
 
   console.log("condition", condition);
 
-  burger.update({
-    devoured: req.body.devoured
-  }, condition, function(result) {
-    if (result.changedRows == 0) {
-     
-      return res.status(404).end();
-    } else {
-      res.status(200).end();
-    }
+  burgers.updateOne(condition, function(result) {
+    res.json(result);
   });
 });
 
-router.delete("/api/burgers/:id", function(req, res) {
-  var condition = "id = " + req.params.id;
+//PUT (update)
+router.put("/api/burgersTwo/:id", function(req, res) {
+  var condition = req.params.id;
 
-  burger.delete(condition, function(result) {
-    if (result.affectedRows == 0) {
-   
-      return res.status(404).end();
-    } else {
-      res.status(200).end();
-    }
+  console.log("condition", condition);
+
+  burgers.updateTwo(condition, function(result) {
+    res.json(result);
   });
 });
 
-
+// Export routes for server.js to use.
 module.exports = router;

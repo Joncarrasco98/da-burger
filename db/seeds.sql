@@ -1,6 +1,3 @@
-USE 
-
-INSERT INTO burgers (burger_name,devoured)
-VALUES ("hamburger",0), 
-("juicy lucy",1),
-("gluten free",0);
+INSERT INTO `burgers_db`.`burgers` (`id`, `burger_name`, `devoured`) VALUES ('1', 'Bacon Cheeseburger', '0');
+INSERT INTO `burgers_db`.`burgers` (`id`, `burger_name`, `devoured`) VALUES ('2', 'Double Cheeseburger', '1');
+INSERT INTO `burgers_db`.`burgers` (`id`, `burger_name`, `devoured`) VALUES ('3', 'Jucy Lucy', '0');
